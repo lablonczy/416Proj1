@@ -23,31 +23,6 @@ public Client(String address, int port)
     	}
 	System.out.println("Connected"); 
 	
-	/* takes input from the client socket */
-	try {
-		in = new DataInputStream( 
-		    new BufferedInputStream(socket.getInputStream()));
-	} catch (IOException e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	} 
-	
-	String inputLine = ""; 
-	
-	System.out.println("Got input from Server...");
-	System.out.println("Printing input: ");
-	
-	/* reads message from client until "Over" is sent */
-	while (!inputLine.equals("Over")) 
-	{ 
-	        try {
-				inputLine = in.readUTF();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} 
-	        System.out.println(inputLine); 
-	} 
 	
 	System.out.println("Write input to send to Server");
 
@@ -74,6 +49,30 @@ public Client(String address, int port)
 			System.out.println(i); 
 		} 
 	} 
+	
+	/* takes input from the Server socket */
+	try {
+		in = new DataInputStream( 
+		    new BufferedInputStream(socket.getInputStream()));
+		
+		String inputLine = ""; 
+		
+		System.out.println("Got input from Server...");
+		System.out.println("Printing input: ");
+		
+		/* reads message from Server until "Over" is sent */
+		while (!inputLine.equals("Over")) 
+		{ 
+			
+			inputLine = in.readUTF();
+		    System.out.println(inputLine); 
+		} 
+		
+	} catch (IOException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	} 
+	
 	
 	/* close the connection */
 	try { 
