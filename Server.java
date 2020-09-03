@@ -11,6 +11,7 @@ public class Server
 private Socket socket = null; 
 private ServerSocket server = null;
 private DataInputStream in = null; 
+private DataOutputStream out = null;
 
 /* constructor with port */
 public Server(int port) 
@@ -37,23 +38,28 @@ public Server(int port)
 		
 		System.out.println("Got input from client...");
 		System.out.println("Printing input: ");
-		
+
 		/* reads message from client until "Over" is sent */
-		while (!line.equals("Over")) 
+		while (!line.equals("Over"))
 		{ 
 		        line = in.readUTF(); 
-		        System.out.println(line); 
+		        System.out.println(line);
 		} 
 		
 		System.out.println("Write a line to send to Client: ");
-		String serverString = (new Scanner(System.in)).nextLine();
-		
-		System.out.println("Sending to Client ...");
-		PrintWriter toClient = new PrintWriter(socket.getOutputStream(), true);
-		toClient.println(serverString);
-		
-		System.out.println("Closing connection"); 
-		
+		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+
+		DataOutputStream output = new DataOutputStream((socket.getOutputStream()));
+
+		line = "";
+
+		while(!line.equals("Over")){
+			line = input.readLine();
+			output.writeUTF(line);
+		}
+
+		System.out.println("Closing connection");
+
 		/* close connection */
 		socket.close(); 
 		in.close(); 
